@@ -189,4 +189,5 @@ X,X_test,Y,Y_test=cv.train_test_split(X,Y,random_state=42)
 nn=NN()
 nn.fit(X,Y)
 prd=nn.predict(X_test)
+a="sss"
 nn.pred_evaluate(X_test,Y_test)
