@@ -81,13 +81,11 @@ class NN():
 
         _output_weight = self.output_weight
         opdelta=(t-y)*y*(1.0-y)
-        #self.output_weight += h * opdelta.reshape((-1, 1)) * np.r_[z,np.array([1])]- mu * self.output_momentum
         self.output_weight += h *np.outer(opdelta,np.r_[z,np.array([1])] )- mu * self.output_momentum
         self.output_momentum = self.output_weight - _output_weight
         #input()
         _hidden_weight = self.hidden_weight
         hidden_delta = (self.output_weight[:,:(-1)].T.dot(opdelta)).T * z * (1.0 - z)
-        #self.hidden_weight -= h * hidden_delta.reshape((-1, 1)) * np.r_[x,np.array([1])]
         #import pdb;pdb.set_trace()
         self.hidden_weight += h *np.outer(hidden_delta,np.r_[x,np.array([1])] )
         self.hidden_momentum = self.hidden_weight - _hidden_weight
@@ -176,18 +174,13 @@ class NN():
 dat=data.load_iris()
 Y=dat.target
 X=dat.data
-#X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
-#y=np.array([1,0,0,1,0,1,1,0])
-#X=pd.concat([pd.DataFrame([1]*X.shape[0]),pd.DataFrame(X)],axis=1)
-#df=pd.read_csv("/Users/iijimasatoshi/dataset/xor_pattern")
-#y=df['yy']
-#X=df.iloc[:,1:]
+
 X=np.array(X)
 import sklearn.cross_validation as cv
-X,X_test,Y,Y_test=cv.train_test_split(X,Y,random_state=42)
+X,X_test,Y,Y_test=cv.train_test_split(X,Y,random_state=1235)
 
 nn=NN()
 nn.fit(X,Y)
 prd=nn.predict(X_test)
-a="sss"
+
 nn.pred_evaluate(X_test,Y_test)
